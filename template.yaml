@@ -1,0 +1,20 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: CD Demo Lambda
+
+Resources:
+
+  HelloWorld:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: helloWorld.handler
+      CodeUri: ./Lambda
+      Runtime: nodejs18.x
+      AutoPublishAlias: live
+      Description: 'Lambda function for CD Demo'
+      MemorySize: 128
+      Timeout: 30
+      Environment:
+        Variables:
+          REGION: us-west-1
+          
