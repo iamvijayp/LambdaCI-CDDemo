@@ -1,10 +1,7 @@
 version: 0.2
 env:
   variables:
-    ENVIRONMENT: 
-      - dev
-      - test
-      - prod
+    ENVIRONMENT: 'dev test prod'  # Define ENVIRONMENT as a string with space-separated values
 phases:
   install:
     runtime-versions:
