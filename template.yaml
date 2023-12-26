@@ -2,8 +2,13 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 Description: CD Demo Lambda
 
-Resources:
+Parameters:
+  Environment:
+    Type: String
+    AllowedValues: [dev, test, prod]
+    Description: Select the deployment environment
 
+Resources:
   HelloWorld:
     Type: 'AWS::Serverless::Function'
     Properties:
@@ -11,10 +16,10 @@ Resources:
       CodeUri: ./Lambda
       Runtime: nodejs18.x
       AutoPublishAlias: live
-      Description: 'Lambda function for CD Demo'
+      Description: !Sub 'Lambda function for CD Demo - ${Environment}'
       MemorySize: 128
       Timeout: 30
+      FunctionName: !Sub 'MyFunction-${Environment}'  # Change the function name based on the environment
       Environment:
         Variables:
-          REGION: us-west-1
-          
+          REGION: 'us-west-1'  # Set the region for all environments
