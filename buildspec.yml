@@ -1,12 +1,27 @@
 version: 0.2
+env:
+  variables:
+    ENVIRONMENT: 
+      - dev
+      - test
+      - prod
 phases:
   install:
     runtime-versions:
       python: 3.11
     commands:
-      - aws cloudformation package --template-file template.yaml --s3-bucket lambda-ci-cd-demo-bucket-vijay1 --output-template-file outputTemplate.yaml
+      - |
+        if [ $ENVIRONMENT == "dev" ]; then
+          aws cloudformation package --template-file template.yaml --s3-bucket dev-lambda-ci-cd-demo-bucket-vijay1 --output-template-file outputTemplate-dev.yaml
+        elif [ $ENVIRONMENT == "test" ]; then
+          aws cloudformation package --template-file template.yaml --s3-bucket test-lambda-ci-cd-demo-bucket-vijay1 --output-template-file outputTemplate-test.yaml
+        elif [ $ENVIRONMENT == "prod" ]; then
+          aws cloudformation package --template-file template.yaml --s3-bucket prod-lambda-ci-cd-demo-bucket-vijay1 --output-template-file outputTemplate-prod.yaml
+        fi
 artifacts:
   type: zip
   files:
     - template.yaml
-    - outputTemplate.yaml
+    - outputTemplate-dev.yaml
+    - outputTemplate-test.yaml
+    - outputTemplate-prod.yaml
